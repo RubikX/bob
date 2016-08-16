@@ -101,9 +101,29 @@
           </li>
           <li role="presentation" class="dropdown">
             <a class="dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">
-                Rito Chat Rooms<span class="caret"></span>
+                Change Chat Room<span class="caret"></span>
             </a>
-            <ul id="chatList" class="dropdown-menu">
+            <ul class="dropdown-menu">
+              <li>
+                <div class="input-group">
+                  <input id="custom-chat-id" type="text" class="form-control" placeholder="Twitch Channel ID...">
+                  <span class="input-group-btn">
+                    <button id="custom-chat-btn" class="btn btn-default" type="button">Go!</button>
+                  </span>
+                </div>
+              </li>
+             </ul>
+          </li>
+          <li>
+            <a class="dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">
+                About<span class="caret"></span>
+            <ul class="dropdown-menu">
+              <li>
+                <a href="https://github.com/andresperezl/bob" target="_blank">GitHub</a>
+              </li>
+              <li>
+                <a href="https://www.reddit.com/r/bestofboth/" target="_blank">Reddit</a>
+              </li>
             </ul>
           </li>
         </ul>
@@ -120,7 +140,7 @@
     <div class="row">
       <iframe 
         class="col-md-9"
-        src="https://www.youtube.com/embed/v7YjS1O8oo8?autoplay=1"
+        src="https://www.youtube.com/embed/y-KcA51Co-o?autoplay=1"
         frameborder="0"
         allowfullscreen
         id="youtubeFrame">
@@ -128,7 +148,7 @@
       <iframe 
         frameborder="0" 
         scrolling="no" 
-        src="https://www.twitch.tv/nalcs1/chat" 
+        src="http://www.twitch.tv/bobreplays/chat" 
         class="col-md-3"
         id="twitchFrame">
       </iframe>
@@ -142,29 +162,6 @@
     var optionsMenu = $("#optionsMenu");
     var optionsWrapper = $("#optionsWrapper");
     var chatOnLeft = $("input[type='checkbox']#chatOnLeft");
-    var streams = []
-    var chats = [
-      {
-        title: "nalcs1",
-        channel: "nalcs1"
-      },
-      {
-        title: "nalcs2",
-        channel: "nalcs2"
-      },
-      {
-        title: "eulcs1",
-        channel: "eulcs1"
-      },
-      {
-        title: "eulcs2",
-        channel: "eulcs2"
-      },
-      {
-        title: "lck1",
-        channel: "lck1"
-      }
-    ]
     var streamSize = 9;
     var chatSize = 3;
     function setRatio(stream, chat){
@@ -193,6 +190,19 @@
     function switchChat(channel){
       $("#twitchFrame").attr('src', "http://www.twitch.tv/" + channel + "/chat");
     }
+    
+    function getUrlParameter(sParam) {
+      var sPageURL = decodeURIComponent(window.location.search.substring(1)),
+          sURLVariables = sPageURL.split('&'),
+          sParameterName,
+          i;
+      for (i = 0; i < sURLVariables.length; i++) {
+        sParameterName = sURLVariables[i].split('=');
+        if (sParameterName[0] === sParam) {
+          return sParameterName[1] === undefined ? true : sParameterName[1];
+        }
+      }
+    }
     $(function(){
       optionsMenu.fadeTo(0,0);
       $("#navLogo").fadeTo(0, 0.1);
@@ -207,15 +217,32 @@
       chatOnLeft.change(function(){
         setRatio(streamSize, chatSize);
       });
-      streams.forEach(function(streamObject){
-        $("#streamList").append("<li onclick=\"switchStream('" + streamObject.streamId + "')\"><a href='#'>" + streamObject.title + "</a></li>")
-      });
-      chats.forEach(function(chatObject){
-        $("#chatList").append("<li onclick=\"switchChat('" + chatObject.channel + "')\"><a href='#'>" + chatObject.title + "</a></li>")
-      });
       $("#custom-video-btn").click(function(){
         switchStream($("#custom-video-id").val());
       });
+      $("#custom-chat-btn").click(function(){
+        switchChat($("#custom-chat-id").val().toLowerCase());
+      });
+      $("#custom-video-id").keypress(function(event){
+        if(event.which == 13){
+          event.preventDefault();
+          switchStream($("#custom-video-id").val());
+        }
+      });
+      $("#custom-chat-id").keypress(function(event){
+        if(event.which == 13){
+          event.preventDefault();
+          switchChat($("#custom-chat-id").val().toLowerCase());
+        }
+      });
+      var stream = getUrlParameter('stream'),
+          chat = getUrlParameter('chat');
+      if(stream !== undefined){
+        switchStream(stream);
+      }
+      if(chat !== undefined){
+        switchChat(chat);
+      }
     });
   </script>
 </body>
