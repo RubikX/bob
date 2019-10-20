@@ -136,7 +136,7 @@
       <iframe 
         frameborder="0" 
         scrolling="no" 
-        src="http://www.twitch.tv/nalcs1/chat" 
+        src="https://www.twitch.tv/embed/riotgames/chat" 
         class="col-md-3"
         id="twitchFrame">
       </iframe>
@@ -176,7 +176,7 @@
       $("#youtubeFrame").attr('src', "https://www.youtube.com/embed/" + streamId + "?autoplay=1");
     }
     function switchChat(channel){
-      $("#twitchFrame").attr('src', "http://www.twitch.tv/" + channel + "/chat");
+      $("#twitchFrame").attr('src', "http://www.twitch.tv/embed" + channel + "/chat");
     }
     
     function getUrlParameter(sParam) {
