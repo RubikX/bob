@@ -40,6 +40,46 @@
       pointer-events: auto;
     }
     .navbar { margin-bottom: 0; }
+    .tooltip {
+      position: relative;
+      display: inline-block;
+    }
+
+    .tooltip .tooltiptext {
+      visibility: hidden;
+      width: 140px;
+      background-color: #555;
+      color: #fff;
+      text-align: center;
+      border-radius: 6px;
+      padding: 5px;
+      position: absolute;
+      z-index: 1;
+      bottom: 150%;
+      left: 50%;
+      margin-left: -75px;
+      opacity: 0;
+      transition: opacity 0.3s;
+    }
+
+    .tooltip .tooltiptext::after {
+      content: "";
+      position: absolute;
+      top: 100%;
+      left: 50%;
+      margin-left: -5px;
+      border-width: 5px;
+      border-style: solid;
+      border-color: #555 transparent transparent transparent;
+    }
+
+    .tooltip:hover .tooltiptext {
+      visibility: visible;
+      opacity: 1;
+    }
+    .btn-space {
+      margin-top: 9px;
+    }
   </style>
 
   
@@ -112,6 +152,9 @@
         </li>
       </ul>
       </form>
+      <button type="button" class="btn btn-danger btn-space" onclick="getSharableUrl(channel, chat)" onmouseout="outFunc()">
+        <span class="tooltiptext" id="myTooltip">Shareable URL</span>
+      </button>
     </div>
   </nav>
   <div class="container-fluid">
@@ -141,6 +184,8 @@
     var optionsWrapper = $("#optionsWrapper");
     var streamSize = 9;
     var chatSize = 3;
+    var channel = "46q_6CZeAXI"
+    var chat = "riotgames"
     function setRatio(stream, chat){
       $("#youtubeFrame").removeClass();
       $("#twitchFrame").removeClass();
@@ -157,9 +202,28 @@
 
     function switchStream(streamId){
       $("#youtubeFrame").attr('src', "https://www.youtube.com/embed/" + streamId + "?autoplay=1");
+      channel = streamId
     }
     function switchChat(channel){
       $("#twitchFrame").attr('src', "http://www.twitch.tv/embed/" + channel + "/chat");
+      chat = channel
+    }
+    function getSharableUrl(streamId, channel) {
+      var url = "http://rubikx.github.io/bob/?stream=" + streamId + "&chat=" + channel
+      var input = document.createElement('input');
+      input.setAttribute('type', 'text');
+      input.value = url;
+      document.body.appendChild(input);
+      input.select();
+      document.execCommand("copy");
+      document.body.removeChild(input)
+      var tooltip = document.getElementById("myTooltip");
+      tooltip.innerHTML = "Copied: " + url;
+    }
+
+    function outFunc() {
+      var tooltip = document.getElementById("myTooltip");
+      tooltip.innerHTML = "Shareable URL";
     }
     
     function getUrlParameter(sParam) {
@@ -174,6 +238,7 @@
         }
       }
     }
+    
     $(function(){
       optionsMenu.fadeTo(0,0);
       $("#navLogo").fadeTo(0, 0.1);
