@@ -52,7 +52,7 @@
   <nav class="navbar navbar-inverse">
     <div class="container-fluid">
       <div class="navbar-header">
-        <a class="navbar-brand" href="http://rubikx.github.io">RubikX</a>
+        <a class="navbar-brand" href="https://rubikx.github.io">RubikX</a>
       </div>
       <ul class="nav navbar-nav">
         <li class="active"><a href="#">BoB</a></li>
@@ -138,8 +138,8 @@
       </iframe>
     </div>
   </div>
-  <script src="http://code.jquery.com/jquery-2.1.4.min.js"></script>
-  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
+  <script src="//code.jquery.com/jquery-latest.js"></script>
+  <script src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
   <script>
     var streamFrane = $("#youtubeFrame");
     var chatFrame = $("#twitchFrame");
@@ -168,11 +168,11 @@
       channel = streamId
     }
     function switchChat(channel){
-      $("#twitchFrame").attr('src', "http://www.twitch.tv/embed/" + channel + "/chat");
+      $("#twitchFrame").attr('src', "https://www.twitch.tv/embed/" + channel + "/chat");
       chat = channel
     }
     function getSharableUrl(streamId, channel) {
-      var url = "http://rubikx.github.io/bob/?stream=" + streamId + "&chat=" + channel
+      var url = "https://rubikx.github.io/bob/?stream=" + streamId + "&chat=" + channel
       var input = document.createElement('input');
       input.setAttribute('type', 'text');
       input.value = url;
